@@ -24,7 +24,7 @@ export default function App() {
 
     const logout = async () => {
         try {
-          
+          localStorage.removeItem("token");
         } catch (err) {
             console.error("Logout failed:", err);
         } finally {

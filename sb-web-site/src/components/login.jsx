@@ -20,9 +20,7 @@ function Login({ setUser }) {
         setLoading(true);
 
         try {
-            console.log(import.meta.env.VITE_API_URL)
             const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
-                credentials: "include",
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(form)
@@ -36,6 +34,8 @@ function Login({ setUser }) {
                 username: data.username,
                 roles: data.roles || []
             });
+
+            localStorage.setItem("token", data.token);
 
             navigate("/");
 

@@ -30,9 +30,8 @@ function AdminCreateUser({ isAdmin }) {
 
         try {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
-                credentials: "include",
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
                 body: JSON.stringify(payload)
             });
 
@@ -81,7 +80,7 @@ function AdminUserPanel({ isAdmin }) {
 
     const fetchUsers = async () => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users`, {
-            credentials: "include"
+            headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) }
         });
 
         const data = await res.json();
@@ -105,7 +104,7 @@ function AdminUserPanel({ isAdmin }) {
             selected.map((uuid) =>
                 fetch(`${import.meta.env.VITE_API_URL}/auth/user/${uuid}`, {
                     method: "DELETE",
-                    credentials: "include"
+                    headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) }
                 })
             )
         );
