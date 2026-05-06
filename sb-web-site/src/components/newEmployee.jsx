@@ -64,13 +64,13 @@ export default function NewEmployeesPage() {
 
     const handleActivate = async (id) => {
         const token = localStorage.getItem("token");
-        await fetch(`${API}/new-employees/${id}/activate`, { method: "PATCH", headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
+        await fetch(`${API}/new-employees/activate/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
         fetchEmployees();
     };
 
     const handleDeactivate = async (id) => {
         const token = localStorage.getItem("token");
-        await fetch(`${API}/new-employees/${id}/deactivate`, { method: "PATCH", headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
+        await fetch(`${API}/new-employees/deactivate/${id}`, { method: "PATCH", headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
         fetchEmployees();
     };
 
