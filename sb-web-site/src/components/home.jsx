@@ -29,6 +29,13 @@ function Home({ user }) {
                         <p>Manage users and roles</p>
                     </Link>
                 )}
+
+                {(isManagement || isAdmin) && (
+                    <Link to="/management" className="home-card">
+                        <h3>🛠 Management Panel</h3>
+                        <p>Manage users and roles</p>
+                    </Link>
+                )}
             </div>
         </div>
     );

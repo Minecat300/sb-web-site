@@ -7,6 +7,7 @@ import Login from "./components/login.jsx";
 import Home from "./components/home.jsx";
 import AdminPanel from "./components/admin.jsx";
 import NavBar from "./components/Nav.jsx";
+import NewEmployeesPage from "./components/newEmployee.jsx";
 
 function RequireAuth({ user, children }) {
     if (!user) return <Navigate to="/login" replace />;
@@ -56,6 +57,17 @@ export default function App() {
                                 <RequireAuth user={user}>
                                     <RequireRole user={user} roles={["admin"]}>
                                         <AdminPanel user={user} />
+                                    </RequireRole>
+                                </RequireAuth>
+                            }
+                        />
+
+                        <Route
+                            path="/management"
+                            element={
+                                <RequireAuth user={user}>
+                                    <RequireRole user={user} roles={["admin", "management"]}>
+                                        <NewEmployeesPage user={user} />
                                     </RequireRole>
                                 </RequireAuth>
                             }
