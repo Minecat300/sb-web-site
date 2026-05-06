@@ -1502,3 +1502,91 @@ body.light .filter-row button {
     color: #0f172a !important;
     border: 1px solid #cbd5e1 !important;
 }
+
+/* ========================= */
+/* NEW EMPLOYEES (MATCHED)   */
+/* ========================= */
+
+/* WRAPPER */
+.employee-page {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* FORM INSIDE CARD */
+.employee-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 150px auto;
+    gap: 10px;
+}
+
+/* MOBILE STACK */
+@media (max-width: 700px) {
+    .employee-form {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* TABLE STYLE (MATCH CARD LOOK) */
+.employee-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.employee-table th,
+.employee-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.employee-table th {
+    font-size: 13px;
+    color: #94a3b8;
+    border-bottom: 1px solid #334155;
+}
+
+.employee-table tr {
+    border-bottom: 1px solid #1f2937;
+}
+
+.employee-table tr:hover {
+    background: #0f172a;
+}
+
+/* ACTION BUTTON GROUP */
+.employee-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* STATUS BADGES (reuse style logic) */
+.status-pending {
+    background: #facc15;
+    color: #000;
+}
+
+.status-active {
+    background: #22c55e;
+    color: #052e16;
+}
+
+.status-inactive {
+    background: #ef4444;
+    color: white;
+}
+
+/* LIGHT MODE FIX */
+body.light .employee-table th {
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.light .employee-table tr {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.light .employee-table tr:hover {
+    background: #f1f5f9;
+}
