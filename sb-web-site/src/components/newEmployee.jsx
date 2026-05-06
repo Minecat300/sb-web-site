@@ -80,7 +80,7 @@ export default function NewEmployeesPage() {
             first_name: emp.first_name || "",
             last_name: emp.last_name || "",
             display_name: emp.display_name || "",
-            start_date: emp.start_date || "",
+            start_date: emp.start_date ? emp.start_date.split("T")[0] : "",
             department: emp.department || ""
         });
 
@@ -98,7 +98,7 @@ export default function NewEmployeesPage() {
 
     const handleActivate = async (id) => {
         await fetch(`${API}/new-employees/activate/${id}`, {
-            method: "PATCH",
+            method: "PUT",
             headers: getHeaders()
         });
 
@@ -107,7 +107,7 @@ export default function NewEmployeesPage() {
 
     const handleDeactivate = async (id) => {
         await fetch(`${API}/new-employees/deactivate/${id}`, {
-            method: "PATCH",
+            method: "PUT",
             headers: getHeaders()
         });
 
