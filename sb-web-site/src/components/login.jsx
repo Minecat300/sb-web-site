@@ -20,7 +20,8 @@ function Login({ setUser }) {
         setLoading(true);
 
         try {
-            const res = await fetch(`${import.meta.env.API_URL}/auth/login`, {
+            console.log(import.meta.env.VITE_API_URL)
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/login`, {
                 credentials: "include",
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
