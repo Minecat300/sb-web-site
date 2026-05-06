@@ -1,0 +1,44 @@
+{
+    "name": "sb-web-site",
+    "version": "1.0.0",
+    "description": "Website for storbedrift",
+    "main": "server.js",
+    "type": "module",
+    "scripts": {
+        "start": "node server.js",
+        "postinstall": "node postBuild.js"
+    },
+    "keywords": [],
+    "author": "Minecat300",
+    "license": "none",
+    "dependencies": {
+        "body-parser": "^1.20.2",
+        "cors": "^2.8.5",
+        "express": "^4.10.4"
+    },
+    "installPath": "~/storbedrift/web/site",
+    "nginx": {
+        "service": {
+            "name": "sb-web-site",
+            "port": 3869,
+            "uri": "",
+            "https": false,
+            "servers": ["localhost"]
+        },
+        "localhost": {
+            "urls": ["_"],
+            "certificate": "/etc/ssl/certs/selfsigned.crt",
+            "certificateKey": "/etc/ssl/private/selfsigned.key"
+        }
+    },
+    "pm2": {
+        "name": "sb-web-site",
+        "file": "server.js"
+    },
+    "autoUpdate": {
+        "githubWebhook": {
+            "branch": ["main"],
+            "repo": "Minecat300/sb-web-site"
+        }
+    }
+}
