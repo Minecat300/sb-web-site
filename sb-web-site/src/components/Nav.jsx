@@ -70,6 +70,12 @@ function NavBar({ user, logout }) {
                             Admin
                         </NavLink>
                     )}
+
+                    {(isManagement || isAdmin) && (
+                        <NavLink onClick={closeMenu} to="/management" className="nav-item admin">
+                            Management
+                        </NavLink>
+                    )}
                 </div>
             </div>
 
