@@ -29,7 +29,7 @@ function AdminCreateUser({ isAdmin }) {
         };
 
         try {
-            const res = await fetch(`${import.meta.env.API_URL}/auth/register`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
                 credentials: "include",
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -80,7 +80,7 @@ function AdminUserPanel({ isAdmin }) {
     if (!isAdmin) return null;
 
     const fetchUsers = async () => {
-        const res = await fetch(`${import.meta.env.API_URL}/auth/users`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users`, {
             credentials: "include"
         });
 
@@ -103,7 +103,7 @@ function AdminUserPanel({ isAdmin }) {
     const deleteSelected = async () => {
         await Promise.all(
             selected.map((uuid) =>
-                fetch(`${import.meta.env.API_URL}/auth/user/${uuid}`, {
+                fetch(`${import.meta.env.VITE_API_URL}/auth/user/${uuid}`, {
                     method: "DELETE",
                     credentials: "include"
                 })
