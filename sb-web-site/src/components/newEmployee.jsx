@@ -4,6 +4,7 @@ const API = import.meta.env.VITE_API_URL;
 
 export default function NewEmployeesPage() {
     const [employees, setEmployees] = useState([]);
+
     const [form, setForm] = useState({
         username: "",
         email: "",
@@ -16,6 +17,9 @@ export default function NewEmployeesPage() {
 
     const [editingId, setEditingId] = useState(null);
 
+    const [statusFilter, setStatusFilter] = useState("all");
+    const [search, setSearch] = useState("");
+
     const getHeaders = () => {
         const token = localStorage.getItem("token");
         return {
@@ -24,21 +28,38 @@ export default function NewEmployeesPage() {
         };
     };
 
-    const fetchEmployees = async () => {
-        const res = await fetch(`${API}/new-employees`, {
-            headers: getHeaders()
-        });
+    const formatDate = (date) => {
+        if (!date) return "";
+        return date.split("T")[0];
+    };
 
+    const fetchEmployees = async () => {
+        let url = `${API}/new-employees`;
+
+        if (statusFilter === "active") url = `${API}/new-employees/active`;
+        if (statusFilter === "inactive") url = `${API}/new-employees/inactive`;
+        if (statusFilter === "pending") url = `${API}/new-employees/pending`;
+
+        const res = await fetch(url, { headers: getHeaders() });
         const data = await res.json();
-        setEmployees(Array.isArray(data) ? data : []);
+
+        let list = Array.isArray(data) ? data : [];
+
+        if (search) {
+            list = list.filter(emp =>
+                emp.username?.toLowerCase().includes(search.toLowerCase())
+            );
+        }
+
+        setEmployees(list);
     };
 
     useEffect(() => {
         fetchEmployees();
-    }, []);
+    }, [statusFilter, search]);
 
     const handleChange = (e) => {
-        setForm((prev) => ({
+        setForm(prev => ({
             ...prev,
             [e.target.name]: e.target.value
         }));
@@ -46,6 +67,11 @@ export default function NewEmployeesPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const payload = {
+            ...form,
+            start_date: formatDate(form.start_date)
+        };
 
         const url = editingId
             ? `${API}/new-employees/${editingId}`
@@ -56,7 +82,7 @@ export default function NewEmployeesPage() {
         await fetch(url, {
             method,
             headers: getHeaders(),
-            body: JSON.stringify(form)
+            body: JSON.stringify(payload)
         });
 
         setForm({
@@ -80,7 +106,7 @@ export default function NewEmployeesPage() {
             first_name: emp.first_name || "",
             last_name: emp.last_name || "",
             display_name: emp.display_name || "",
-            start_date: emp.start_date ? emp.start_date.split("T")[0] : "",
+            start_date: formatDate(emp.start_date),
             department: emp.department || ""
         });
 
@@ -98,7 +124,7 @@ export default function NewEmployeesPage() {
 
     const handleActivate = async (id) => {
         await fetch(`${API}/new-employees/activate/${id}`, {
-            method: "PUT",
+            method: "PATCH",
             headers: getHeaders()
         });
 
@@ -107,7 +133,7 @@ export default function NewEmployeesPage() {
 
     const handleDeactivate = async (id) => {
         await fetch(`${API}/new-employees/deactivate/${id}`, {
-            method: "PUT",
+            method: "PATCH",
             headers: getHeaders()
         });
 
@@ -137,6 +163,26 @@ export default function NewEmployeesPage() {
             </div>
 
             <div className="card">
+
+                <div className="filter-row wrap">
+                    <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
+                        <option value="all">All</option>
+                        <option value="pending">Pending</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+
+                    <input
+                        placeholder="Search username..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+
+                    <button className="btn-gray" onClick={fetchEmployees}>
+                        Refresh
+                    </button>
+                </div>
+
                 <table className="employee-table">
                     <thead>
                         <tr>
@@ -164,31 +210,19 @@ export default function NewEmployeesPage() {
                                 <td>
                                     <div className="employee-actions">
 
-                                        <button
-                                            className="btn-gray"
-                                            onClick={() => handleEdit(emp)}
-                                        >
+                                        <button className="btn-gray" onClick={() => handleEdit(emp)}>
                                             Edit
                                         </button>
 
-                                        <button
-                                            className="btn-red"
-                                            onClick={() => handleDelete(emp.employee_id)}
-                                        >
+                                        <button className="btn-red" onClick={() => handleDelete(emp.employee_id)}>
                                             Delete
                                         </button>
 
-                                        <button
-                                            className="btn-green"
-                                            onClick={() => handleActivate(emp.employee_id)}
-                                        >
+                                        <button className="btn-green" onClick={() => handleActivate(emp.employee_id)}>
                                             Activate
                                         </button>
 
-                                        <button
-                                            className="btn-gray"
-                                            onClick={() => handleDeactivate(emp.employee_id)}
-                                        >
+                                        <button className="btn-gray" onClick={() => handleDeactivate(emp.employee_id)}>
                                             Deactivate
                                         </button>
 
@@ -198,8 +232,8 @@ export default function NewEmployeesPage() {
                         ))}
                     </tbody>
                 </table>
-            </div>
 
+            </div>
         </div>
     );
 }
