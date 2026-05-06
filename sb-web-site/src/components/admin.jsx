@@ -29,6 +29,7 @@ function AdminCreateUser({ isAdmin }) {
         };
 
         try {
+            const token = localStorage.getItem("token");
             const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
@@ -78,6 +79,8 @@ function AdminUserPanel({ isAdmin }) {
 
     if (!isAdmin) return null;
 
+    const token = localStorage.getItem("token");
+
     const fetchUsers = async () => {
         const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/users`, {
             headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) }
@@ -100,6 +103,8 @@ function AdminUserPanel({ isAdmin }) {
     };
 
     const deleteSelected = async () => {
+        const token = localStorage.getItem("token");
+
         await Promise.all(
             selected.map((uuid) =>
                 fetch(`${import.meta.env.VITE_API_URL}/auth/user/${uuid}`, {
