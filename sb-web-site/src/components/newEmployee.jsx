@@ -124,7 +124,7 @@ export default function NewEmployeesPage() {
 
     const handleActivate = async (id) => {
         await fetch(`${API}/new-employees/activate/${id}`, {
-            method: "PATCH",
+            method: "PUT",
             headers: getHeaders()
         });
 
@@ -133,7 +133,7 @@ export default function NewEmployeesPage() {
 
     const handleDeactivate = async (id) => {
         await fetch(`${API}/new-employees/deactivate/${id}`, {
-            method: "PATCH",
+            method: "PUT",
             headers: getHeaders()
         });
 
